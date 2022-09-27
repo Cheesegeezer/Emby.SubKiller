@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Company>Cheesey Productions</Company>
+    <Version></Version>
+    <AssemblyVersion>0.0.0.5</AssemblyVersion>
+    <FileVersion>0.0.0.5</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Configuration\SubKillerConfigurationPage.html" />
+    <None Remove="Configuration\SubKillerConfigurationPage.js" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\SubKillerConfigurationPage.html" />
+    <EmbeddedResource Include="Configuration\SubKillerConfigurationPage.js" />
+    <EmbeddedResource Include="thumb.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediaBrowser.Common" Version="4.7.0.30" />
+    <PackageReference Include="MediaBrowser.Server.Core" Version="4.7.0.30" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.Text.Json" Version="6.0.2" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;C:\Users\davey\Documents\GitHub\Emby.SubKiller\bin\Debug\netstandard2.0\Emby.SubKiller.dll&quot; &quot;C:\Users\davey\AppData\Roaming\Emby-Server\programdata\plugins\&quot; /Y" />
+  </Target>
+
+</Project>

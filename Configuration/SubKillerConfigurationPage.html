@@ -1,0 +1,681 @@
+﻿<!---->
+<!---->
+<!--You will need to Edit Things in this top line-->
+<div id="SubKillerPluginConfigurationPage" data-role="page" class="type-interior pluginConfigurationPage withTabs libraryFileOrganizerLogPage" data-require="emby-button,emby-input,emby-select,emby-toggle,emby-collapse" data-controller="__plugin/SubKillerPluginConfigurationPageJS">
+    <!---->
+    <div>
+		<div class="content-primary">
+			<div class="verticalSection verticalSection">
+				<div class="sectionTitleContainer sectionTitleContainer-cards align-items-center">
+
+					<h2>SUB-KILLER - Remove Unwanted Subtitles from your media<a is="emby-linkbutton" class="raised raised-mini emby-button" target="_blank" href="https://github.com/Cheesegeezer/subkiller-wiki/wiki"><i class="md-icon button-icon button-icon-left secondaryText headerHelpButtonIcon" style="color: var(--theme-accent-text-color)">help</i><span class="headerHelpButtonText" style="color: var(--theme-accent-text-color)">Help</span></a></h2>
+
+					<h3>
+						By Default running the Scheduled task with no text options selected will only deal with Graphical subs. To extract text based subtitle - please enable the options below
+					</h3>
+				</div>
+			<br />
+			<hr/>
+
+			<div class="paperList checkboxList checkboxList-paperList">
+				<h3 class="checkboxListLabel">SubKiller</h3>
+				<h4 class="checkboxListLabel">
+					SubKiller will allow you to remove unwanted subtitles from your media
+				</h4>
+
+				<br />
+				<label>
+					<input is="emby-toggle" type="checkbox" class="chkEnableSubKiller" />
+					<span class="toggleButtonLabel mdl-switch__label">Enable SubKiller</span>
+				</label>
+				<div class="fieldDescription">Enabling this allows for Schedule Task to Show and Run</div>
+				<label>
+					<input is="emby-toggle" type="checkbox" class="chkRunSubKillerOnItemAdded" />
+					<span class="toggleButtonLabel mdl-switch__label">AutoRun on new Media Added</span>
+				</label>
+				<div class="fieldDescription">Automatically run SubKiller after new Item is Added to your Library</div>
+				<br />
+
+				<hr />
+				<h2>Selected Languages: <span id="txtselectedLangs" class="max-width:75%;"></span></h2>
+				<!--<label>
+					<input is="emby-toggle" type="checkbox" class="chkKeepUndefined" />
+					<span class="toggleButtonLabel mdl-switch__label">Enable to keep Undefined language subtitles</span>
+				</label>
+				<div class="fieldDescription">Enabling this will keep all undefined subtitles - Allows the user to rectify these und themselves</div>-->
+				<div class="checkboxContainer checkboxContainer-withDescription ">
+					<h4>Select languages to keep subtitles in your media</h4>
+					<div class="listItems-border checkboxList" style="max-height: 25vh; overflow-y: auto; padding: .5em 1em;">
+						<label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="aa" data-altlang="aar"><span class="checkboxLabel">Afar</span>
+						</label>
+						<label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ab" data-altlang="abk"><span class="checkboxLabel">Abkhazian</span>
+						</label>
+						<label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="af" data-altlang="afr"><span class="checkboxLabel">Afrikaans</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ak" data-altlang="aka"><span class="checkboxLabel">Akan</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="sq"
+								   data-altlang="alb"><span class="checkboxLabel">Albanian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="am" data-altlang="amh"><span class="checkboxLabel">Amharic</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ar" data-altlang="ara"><span class="checkboxLabel">Arabic</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="an"
+								   data-altlang="arg"><span class="checkboxLabel">Aragonese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="hy" data-altlang="arm"><span class="checkboxLabel">Armenian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="as" data-altlang="asm"><span class="checkboxLabel">Assamese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="av" data-altlang="ava"><span class="checkboxLabel">Avaric</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ae"
+								   data-altlang="ave"><span class="checkboxLabel">Avestan</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ay" data-altlang="aym"><span class="checkboxLabel">Aymara</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="az"
+								   data-altlang="aze"><span class="checkboxLabel">Azerbaijani</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ba" data-altlang="bak"><span class="checkboxLabel">Bashkir</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="bm" data-altlang="bam"><span class="checkboxLabel">Bambara</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="eu" data-altlang="baq"><span class="checkboxLabel">Basque</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="be"
+								   data-altlang="bel"><span class="checkboxLabel">Belarusian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="bn" data-altlang="ben"><span class="checkboxLabel">Bengali</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="bh" data-altlang="bih"><span class="checkboxLabel">Bihari languages</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="bi" data-altlang="bis"><span class="checkboxLabel">Bislama</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="bs" data-altlang="bos"><span class="checkboxLabel">Bosnian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="br" data-altlang="bre"><span class="checkboxLabel">Breton</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="bg"
+								   data-altlang="bul"><span class="checkboxLabel">Bulgarian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="my" data-altlang="bur"><span class="checkboxLabel">Burmese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ca" data-altlang="cat"><span class="checkboxLabel">Catalan</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ch" data-altlang="cha"><span class="checkboxLabel">Chamorro</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ce" data-altlang="che"><span class="checkboxLabel">Chechen</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="zh-CN" data-altlang="chs"><span class="checkboxLabel">Chinese Simplified</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="zh-TW" data-altlang="cht"><span class="checkboxLabel">Chinese Traditional</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="zh-HK" data-altlang="chi"><span class="checkboxLabel">Chinese Traditional (Hong Kong)</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="cu" data-altlang="chu"><span class="checkboxLabel">Church Slavic</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="cv" data-altlang="chv"><span class="checkboxLabel">Chuvash</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="kw" data-altlang="cor"><span class="checkboxLabel">Cornish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="co" data-altlang="cos"><span class="checkboxLabel">Corsican</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="cr" data-altlang="cre"><span class="checkboxLabel">Cree</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="cs"
+								   data-altlang="cze"><span class="checkboxLabel">Czech</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="da" data-altlang="dan"><span class="checkboxLabel">Danish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="dv"
+								   data-altlang="div"><span class="checkboxLabel">Divehi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="nl" data-altlang="dut"><span class="checkboxLabel">Dutch</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="dz"
+								   data-altlang="dzo"><span class="checkboxLabel">Dzongkha</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="en" data-altlang="eng"><span class="checkboxLabel">English</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="eo" data-altlang="epo"><span class="checkboxLabel">Esperanto</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="et" data-altlang="est"><span class="checkboxLabel">Estonian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ee" data-altlang="ewe"><span class="checkboxLabel">Ewe</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="fo"
+								   data-altlang="fao"><span class="checkboxLabel">Faroese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="fj" data-altlang="fij"><span class="checkboxLabel">Fijian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="fi"
+								   data-altlang="fin"><span class="checkboxLabel">Finnish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="fr" data-altlang="fre"><span class="checkboxLabel">French</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox"
+								   data-lang="fr-ca" data-altlang="frc"><span class="checkboxLabel">
+								French
+								(Canada)
+							</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox"
+								   is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="fy"
+								   data-altlang="fry"><span class="checkboxLabel">Western Frisian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ff" data-altlang="ful"><span class="checkboxLabel">Fulah</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ka"
+								   data-altlang="geo"><span class="checkboxLabel">Georgian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="de" data-altlang="ger"><span class="checkboxLabel">German</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="gd"
+								   data-altlang="gla"><span class="checkboxLabel">Gaelic</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ga" data-altlang="gle"><span class="checkboxLabel">Irish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="gl"
+								   data-altlang="glg"><span class="checkboxLabel">Galician</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="gv" data-altlang="glv"><span class="checkboxLabel">Manx</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="el"
+								   data-altlang="gre"><span class="checkboxLabel">
+								Greek, Modern
+								(1453-)
+							</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox"
+								   is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="gn"
+								   data-altlang="grn"><span class="checkboxLabel">Guarani</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="gu" data-altlang="guj"><span class="checkboxLabel">Gujarati</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ht" data-altlang="hat"><span class="checkboxLabel">Haitian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ha" data-altlang="hau"><span class="checkboxLabel">Hausa</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="he"
+								   data-altlang="heb"><span class="checkboxLabel">Hebrew</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="hz" data-altlang="her"><span class="checkboxLabel">Herero</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="hi"
+								   data-altlang="hin"><span class="checkboxLabel">Hindi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ho" data-altlang="hmo"><span class="checkboxLabel">Hiri Motu</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="hr" data-altlang="hrv"><span class="checkboxLabel">Croatian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="hu" data-altlang="hun"><span class="checkboxLabel">Hungarian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ig" data-altlang="ibo"><span class="checkboxLabel">Igbo</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="is"
+								   data-altlang="ice"><span class="checkboxLabel">Icelandic</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="io" data-altlang="ido"><span class="checkboxLabel">Ido</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ii"
+								   data-altlang="iii"><span class="checkboxLabel">Sichuan Yi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="iu" data-altlang="iku"><span class="checkboxLabel">Inuktitut</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ie" data-altlang="ile"><span class="checkboxLabel">Interlingue</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ia" data-altlang="ina"><span class="checkboxLabel">
+								Interlingua (International Auxiliary Language
+								Association)
+							</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox"
+								   is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="id"
+								   data-altlang="ind"><span class="checkboxLabel">Indonesian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ik" data-altlang="ipk"><span class="checkboxLabel">Inupiaq</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="it" data-altlang="ita"><span class="checkboxLabel">Italian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="jv" data-altlang="jav"><span class="checkboxLabel">Javanese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ja" data-altlang="jpn"><span class="checkboxLabel">Japanese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="kl" data-altlang="kal"><span class="checkboxLabel">Kalaallisut</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="kn" data-altlang="kan"><span class="checkboxLabel">Kannada</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ks" data-altlang="kas"><span class="checkboxLabel">Kashmiri</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="kr" data-altlang="kau"><span class="checkboxLabel">Kanuri</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="kk"
+								   data-altlang="kaz"><span class="checkboxLabel">Kazakh</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="km" data-altlang="khm"><span class="checkboxLabel">Central Khmer</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ki" data-altlang="kik"><span class="checkboxLabel">Kikuyu</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="rw"
+								   data-altlang="kin"><span class="checkboxLabel">Kinyarwanda</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ky" data-altlang="kir"><span class="checkboxLabel">Kirghiz</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="kv" data-altlang="kom"><span class="checkboxLabel">Komi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="kg"
+								   data-altlang="kon"><span class="checkboxLabel">Kongo</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ko" data-altlang="kor"><span class="checkboxLabel">Korean</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="kj"
+								   data-altlang="kua"><span class="checkboxLabel">Kuanyama</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ku" data-altlang="kur"><span class="checkboxLabel">Kurdish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="lo" data-altlang="lao"><span class="checkboxLabel">Lao</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="la"
+								   data-altlang="lat"><span class="checkboxLabel">Latin</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="lv" data-altlang="lav"><span class="checkboxLabel">Latvian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="li" data-altlang="lim"><span class="checkboxLabel">Limburgan</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ln" data-altlang="lin"><span class="checkboxLabel">Lingala</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="lt" data-altlang="lit"><span class="checkboxLabel">Lithuanian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="lb" data-altlang="ltz"><span class="checkboxLabel">Luxembourgish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="lu" data-altlang="lub"><span class="checkboxLabel">Luba-Katanga</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="lg" data-altlang="lug"><span class="checkboxLabel">Ganda</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="mk"
+								   data-altlang="mac"><span class="checkboxLabel">Macedonian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="mh" data-altlang="mah"><span class="checkboxLabel">Marshallese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ml" data-altlang="mal"><span class="checkboxLabel">Malayalam</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="mi" data-altlang="mao"><span class="checkboxLabel">Maori</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="mr"
+								   data-altlang="mar"><span class="checkboxLabel">Marathi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ms" data-altlang="may"><span class="checkboxLabel">Malay</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="mg"
+								   data-altlang="mlg"><span class="checkboxLabel">Malagasy</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="mt" data-altlang="mlt"><span class="checkboxLabel">Maltese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="mn" data-altlang="mon"><span class="checkboxLabel">Mongolian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="na" data-altlang="nau"><span class="checkboxLabel">Nauru</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="nv"
+								   data-altlang="nav"><span class="checkboxLabel">Navajo</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="nr" data-altlang="nbl"><span class="checkboxLabel">Ndebele, South</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="nd" data-altlang="nde"><span class="checkboxLabel">Ndebele, North</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ng" data-altlang="ndo"><span class="checkboxLabel">Ndonga</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ne"
+								   data-altlang="nep"><span class="checkboxLabel">Nepali</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="nn" data-altlang="nno"><span class="checkboxLabel">Norwegian Nynorsk</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="nb" data-altlang="nob"><span class="checkboxLabel">Bokmål, Norwegian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="no" data-altlang="nor"><span class="checkboxLabel">Norwegian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ny" data-altlang="nya"><span class="checkboxLabel">Chichewa</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="oc" data-altlang="oci"><span class="checkboxLabel">Occitan (post 1500)</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="oj" data-altlang="oji"><span class="checkboxLabel">Ojibwa</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="or"
+								   data-altlang="ori"><span class="checkboxLabel">Oriya</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="om" data-altlang="orm"><span class="checkboxLabel">Oromo</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="os"
+								   data-altlang="oss"><span class="checkboxLabel">Ossetian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="pa" data-altlang="pan"><span class="checkboxLabel">Panjabi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="fa" data-altlang="per"><span class="checkboxLabel">Persian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="pi" data-altlang="pli"><span class="checkboxLabel">Pali</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="pl"
+								   data-altlang="pol"><span class="checkboxLabel">Polish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="pt" data-altlang="por"><span class="checkboxLabel">Portuguese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="pt-br" data-altlang="pob"><span class="checkboxLabel">Portuguese (Brazil)</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ps" data-altlang="pus"><span class="checkboxLabel">Pushto</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="qu"
+								   data-altlang="que"><span class="checkboxLabel">Quechua</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="rm" data-altlang="roh"><span class="checkboxLabel">Romansh</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ro" data-altlang="rum"><span class="checkboxLabel">Romanian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="rn" data-altlang="run"><span class="checkboxLabel">Rundi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ru"
+								   data-altlang="rus"><span class="checkboxLabel">Russian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sg" data-altlang="sag"><span class="checkboxLabel">Sango</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="sa"
+								   data-altlang="san"><span class="checkboxLabel">Sanskrit</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="si" data-altlang="sin"><span class="checkboxLabel">Sinhala</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sk" data-altlang="slo"><span class="checkboxLabel">Slovak</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="sl"
+								   data-altlang="slv"><span class="checkboxLabel">Slovenian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="se" data-altlang="sme"><span class="checkboxLabel">Northern Sami</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sm" data-altlang="smo"><span class="checkboxLabel">Samoan</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="sn"
+								   data-altlang="sna"><span class="checkboxLabel">Shona</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sd" data-altlang="snd"><span class="checkboxLabel">Sindhi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="so"
+								   data-altlang="som"><span class="checkboxLabel">Somali</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="st" data-altlang="sot"><span class="checkboxLabel">Sotho, Southern</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="es" data-altlang="spa"><span class="checkboxLabel">Spanish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sc" data-altlang="srd"><span class="checkboxLabel">Sardinian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sr" data-altlang="srp"><span class="checkboxLabel">Serbian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ss" data-altlang="ssw"><span class="checkboxLabel">Swati</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="su"
+								   data-altlang="sun"><span class="checkboxLabel">Sundanese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sw" data-altlang="swa"><span class="checkboxLabel">Swahili</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="sv" data-altlang="swe"><span class="checkboxLabel">Swedish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ty" data-altlang="tah"><span class="checkboxLabel">Tahitian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ta" data-altlang="tam"><span class="checkboxLabel">Tamil</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="tt"
+								   data-altlang="tat"><span class="checkboxLabel">Tatar</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="te" data-altlang="tel"><span class="checkboxLabel">Telugu</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="tg"
+								   data-altlang="tgk"><span class="checkboxLabel">Tajik</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="tl" data-altlang="tgl"><span class="checkboxLabel">Tagalog</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="th" data-altlang="tha"><span class="checkboxLabel">Thai</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="bo"
+								   data-altlang="tib"><span class="checkboxLabel">Tibetan</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ti" data-altlang="tir"><span class="checkboxLabel">Tigrinya</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="to" data-altlang="ton"><span class="checkboxLabel">Tonga (Tonga Islands)</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="tn" data-altlang="tsn"><span class="checkboxLabel">Tswana</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ts"
+								   data-altlang="tso"><span class="checkboxLabel">Tsonga</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="tk" data-altlang="tuk"><span class="checkboxLabel">Turkmen</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="tr" data-altlang="tur"><span class="checkboxLabel">Turkish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="tw" data-altlang="twi"><span class="checkboxLabel">Twi</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="ug"
+								   data-altlang="uig"><span class="checkboxLabel">Uighur</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="uk" data-altlang="ukr"><span class="checkboxLabel">Ukrainian</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ur" data-altlang="urd"><span class="checkboxLabel">Urdu</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="uz"
+								   data-altlang="uzb"><span class="checkboxLabel">Uzbek</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="ve" data-altlang="ven"><span class="checkboxLabel">Venda</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="vi"
+								   data-altlang="vie"><span class="checkboxLabel">Vietnamese</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="vo" data-altlang="vol"><span class="checkboxLabel">Volapük</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="cy" data-altlang="wel"><span class="checkboxLabel">Welsh</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="wa"
+								   data-altlang="wln"><span class="checkboxLabel">Walloon</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="wo" data-altlang="wol"><span class="checkboxLabel">Wolof</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="xh"
+								   data-altlang="xho"><span class="checkboxLabel">Xhosa</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="yi" data-altlang="yid"><span class="checkboxLabel">Yiddish</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="yo" data-altlang="yor"><span class="checkboxLabel">Yoruba</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox" class="chkLanguage emby-checkbox" data-lang="za"
+								   data-altlang="zha"><span class="checkboxLabel">Zhuang</span>
+						</label><label class="emby-checkbox-label">
+							<input type="checkbox" is="emby-checkbox"
+								   class="chkLanguage emby-checkbox" data-lang="zu" data-altlang="zul"><span class="checkboxLabel">Zulu</span>
+						</label>
+					</div>
+				</div>
+				<div class="paperList checkboxList checkboxList-paperList">
+					<h3 class="checkboxListLabel">Library Selection</h3>
+					<h4>Warning: This will remove all subtitles not selected from the Media Libraries</h4>
+					<label>
+						<input is="emby-toggle" type="checkbox" class="chkEnableSubKillerRefresh" />
+						<span class="toggleButtonLabel mdl-switch__label">Refresh the Processed SubKiller List</span>
+					</label>
+					<div class="fieldDescription">Enable to reset the processed list and recheck all movies and TV Shows</div>
+
+					<h3>WARNING: The Below options will extract subtitles and delete all other subs - USE WITH CAUTION</h3>
+
+					<label>
+						<input is="emby-toggle" type="checkbox" class="chkEnableSubtitleExtract" />
+						<span class="toggleButtonLabel mdl-switch__label">Extract Text Based Subtitles</span>
+					</label>
+					<div class="fieldDescription">This will leave PGS(Graphic based subtitles) in the video but extract Text (UTF-8) Subtitles to SRT file and remove them from the media</div>
+
+					<label>
+						<input is="emby-toggle" type="checkbox" class="chkEnableExtractForced" />
+						<span class="toggleButtonLabel mdl-switch__label">Extract Only Forced Subtitles - This overrides Extract Text Based</span>
+					</label>
+					<div class="fieldDescription">Extract only Subtitles that are flagged with "Forced" for your selected languages</div>
+				</div>
+				<br />
+				<div class="detailSectionHeader">
+					<h3 style="margin: .6em 0; vertical-align: middle; display: inline-block;">Include Emby Libraries to Remove Subtitles: <span class="excludeShowTitle"></span></h3>
+				</div>
+				<div style="display: flex">
+					<div style="flex-grow: 1;" class="selectContainer">
+						<label class="selectLabel">Emby Libraries</label>
+						<select is="emby-select" name="selectEmbySeries" id="selectEmbySeries" label="Select Library" data-mini="true" class="emby-select-withcolor emby-select pulse">
+						</select>
+						<div class="selectArrowContainer">
+							<div style="visibility: hidden;">0</div><i class="selectArrow md-icon"></i>
+						</div>
+						<div class="fieldDescription">
+							Add Emby Libraries from the list to be included for SubKiller to work on.
+						</div>
+					</div>
+					<button type="button" is="paper-icon-button-light" id="btnAddSeriesToIgnoreList" title="Ignore Series" aria-label="Ignore Series" class="emby-input-iconbutton paper-icon-button-light icon-button-conditionalfocuscolor" style="top: -45px"><i class="md-icon">add</i></button>
+				</div>
+				<!--<button type="button" is="paper-icon-button-light" id="btnAddAllSeriesToIgnoreList" title="Ignore All Series" aria-label="Ignore All Series" class="emby-input-iconbutton emby-button  icon-button-conditionalfocuscolor" style="left: 82%;"><i class="md-icon">add</i> Add All Series</button>-->
+				<h3 style="margin: .6em 0; vertical-align: middle; display: inline-block;">Enabled Library list</h3>
+				<!-- List of Libraries that opt in to Auto Convert -->
+				<div is="emby-itemscontainer" class="itemsContainer flex flex-grow centered padded-bottom-page padded-left padded-left-page padded-right vertical-list virtualItemsContainer" data-virtualscrolllayout="vertical-grid">
+					<div is="virtual-scroller" class="flex-grow virtualScroller virtual-scroller virtual-scroller-overflowvisible ignore-list" layout="vertical" style="min-height: 300px; overflow-y: auto;"></div>
+				</div>
+			</div>
+			</div>
+		</div>
+        </div>
+    </div>
