@@ -39,10 +39,10 @@
 				<hr />
 				<h2>Selected Languages: <span id="txtselectedLangs" class="max-width:75%;"></span></h2>
 				<!--<label>
-					<input is="emby-toggle" type="checkbox" class="chkKeepUndefined" />
-					<span class="toggleButtonLabel mdl-switch__label">Enable to keep Undefined language subtitles</span>
-				</label>
-				<div class="fieldDescription">Enabling this will keep all undefined subtitles - Allows the user to rectify these und themselves</div>-->
+		<input is="emby-toggle" type="checkbox" class="chkKeepUndefined" />
+		<span class="toggleButtonLabel mdl-switch__label">Enable to keep Undefined language subtitles</span>
+	</label>
+	<div class="fieldDescription">Enabling this will keep all undefined subtitles - Allows the user to rectify these und themselves</div>-->
 				<div class="checkboxContainer checkboxContainer-withDescription ">
 					<h4>Select languages to keep subtitles in your media</h4>
 					<div class="listItems-border checkboxList" style="max-height: 25vh; overflow-y: auto; padding: .5em 1em;">
@@ -642,7 +642,7 @@
 						<input is="emby-toggle" type="checkbox" class="chkEnableSubtitleExtract" />
 						<span class="toggleButtonLabel mdl-switch__label">Extract Text Based Subtitles</span>
 					</label>
-					<div class="fieldDescription">This will leave PGS(Graphic based subtitles) in the video but extract Text (UTF-8) Subtitles to SRT file and remove them from the media</div>
+					<div class="fieldDescription">This will leave PGS(Graphic based subtitles) in the media container but extract Text (UTF-8) Subtitles to SRT file and remove them from the media container</div>
 
 					<label>
 						<input is="emby-toggle" type="checkbox" class="chkEnableExtractForced" />
@@ -650,6 +650,22 @@
 					</label>
 					<div class="fieldDescription">Extract only Subtitles that are flagged with "Forced" for your selected languages</div>
 				</div>
+
+			<div class="paperList checkboxList checkboxList-paperList">
+				<h3 class="checkboxListLabel">Select Subtitle Extension</h3>
+				<h4>Current selected Type: <label id="subTypeId"></label></h4>
+				<div id="AddIntroOptions" style="max-width: 50%;">
+					<div style="flex-grow: 1; flex-direction: row;" class="selectContainer">
+						<label class="selectLabel">Select Subtitle Extension Type</label>
+						<select is="emby-select" name="selectSubType" id="selectSubType" label="Select Sub Type" data-mini="true" class="emby-select-withcolor emby-select pulse">
+						</select>
+						<div class="fieldDescription">
+							Choose the type of Extension you wish to extract subtitles to: SRT, VTT, ASS
+						</div>
+					</div>
+					<!-- <button type="button" is="paper-icon-button-light" id="btnAddSeriesToIgnoreList" title="Ignore Series" aria-label="Ignore Series" class="emby-input-iconbutton paper-icon-button-light icon-button-conditionalfocuscolor" style="top: -45px"><i class="md-icon">add</i></button> -->
+				</div>
+			</div>
 				<br />
 				<div class="detailSectionHeader">
 					<h3 style="margin: .6em 0; vertical-align: middle; display: inline-block;">Include Emby Libraries to Remove Subtitles: <span class="excludeShowTitle"></span></h3>
@@ -666,15 +682,17 @@
 							Add Emby Libraries from the list to be included for SubKiller to work on.
 						</div>
 					</div>
-					<button type="button" is="paper-icon-button-light" id="btnAddSeriesToIgnoreList" title="Ignore Series" aria-label="Ignore Series" class="emby-input-iconbutton paper-icon-button-light icon-button-conditionalfocuscolor" style="top: -45px"><i class="md-icon">add</i></button>
+					<button type="button" is="paper-icon-button-light" id="btnAddLibraryList" title="Add Library" aria-label="Add Library" class="emby-input-iconbutton paper-icon-button-light icon-button-conditionalfocuscolor" style="top: -45px"><i class="md-icon">add</i></button>
 				</div>
-				<!--<button type="button" is="paper-icon-button-light" id="btnAddAllSeriesToIgnoreList" title="Ignore All Series" aria-label="Ignore All Series" class="emby-input-iconbutton emby-button  icon-button-conditionalfocuscolor" style="left: 82%;"><i class="md-icon">add</i> Add All Series</button>-->
+
 				<h3 style="margin: .6em 0; vertical-align: middle; display: inline-block;">Enabled Library list</h3>
+
 				<!-- List of Libraries that opt in to Auto Convert -->
 				<div is="emby-itemscontainer" class="itemsContainer flex flex-grow centered padded-bottom-page padded-left padded-left-page padded-right vertical-list virtualItemsContainer" data-virtualscrolllayout="vertical-grid">
-					<div is="virtual-scroller" class="flex-grow virtualScroller virtual-scroller virtual-scroller-overflowvisible ignore-list" layout="vertical" style="min-height: 300px; overflow-y: auto;"></div>
+					<div is="virtual-scroller" class="flex-grow virtualScroller virtual-scroller virtual-scroller-overflowvisible library-list" layout="vertical" style="min-height: 150px; overflow-y: auto;"></div>
 				</div>
 			</div>
+
 			</div>
 		</div>
         </div>
