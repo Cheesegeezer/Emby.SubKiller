@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,6 +57,7 @@ namespace Emby.SubKiller.ScheduledTasks
         private int _numberOfVideoItemsInLibraries;
         private List<Tuple<string,string, int, bool>> _subTextList;
         private List<Tuple<string, string, int, bool>> _subForcedTextList;
+        private List<long> FailedItemList;
 
         private int ExitCode { get; set; }
 
@@ -87,7 +87,7 @@ namespace Emby.SubKiller.ScheduledTasks
 
                 if (config.EnableSubKiller)
                 {
-                    await GetItemsInEmbyLibraries();
+                    await GetItemIdInEmbyLibraries();
 
                     int movItems = _itemsInLibraries == null ? 0 : _itemsInLibraries.Length;
                     _totalItems = movItems;
@@ -191,6 +191,12 @@ namespace Emby.SubKiller.ScheduledTasks
                 await Task.FromResult(true);
 
                 config.EnableSubKillerRefresh = false;
+                foreach (var failedItem in FailedItemList)
+                {
+                    Log.Info("Removing {0} from the Processed List due to processing failure", failedItem.ToString());
+                    config.SubKillerProcessedList.Remove(failedItem);
+
+                }
                 Plugin.Instance.UpdateConfiguration(Plugin.Instance.Configuration);
 
                 await RunMetaDataScan();
@@ -226,70 +232,9 @@ namespace Emby.SubKiller.ScheduledTasks
         {
             return new List<TaskTriggerInfo>();
         }
-
-        #region 4.7.6.0 Library Code (Convert GUID to internal Id)
-        private async Task GetItemsInEmbyLibraries()
-        {
-            List<long> convertedIdList = new List<long>();
-            try
-            {
-                Log.Info("Converting Root Folder GUID's");
-
-                foreach (var lib in config.LibrariesToConvert)
-                {
-                    Log.Debug("library GUID = {0}", lib);
-                    var libList = new InternalItemsQuery
-                    {
-                        PresentationUniqueKey = lib,
-                    };
-                    var idList = LibraryManager.GetInternalItemIds(libList);
-                    foreach (var id in idList)
-                    {
-                        convertedIdList.Add(id);
-                    }
-                }
-                _newlibraryItemIds = convertedIdList.ToArray();
-                _totalLibraries = _newlibraryItemIds.Length;
-                Log.Info("No. of Libraries selected is {0}", _totalLibraries.ToString());
-
-                foreach (var folder in _newlibraryItemIds)
-                {
-                    Log.Debug("Internal Library Folder Id = {0}", folder.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error("ERROR: NO Library Folders Found");
-                Log.Error(ex.ToString());
-            }
-
-            try
-            {
-                Log.Info("Getting Root Folder Library Items");
-
-                var queryList = new InternalItemsQuery
-                {
-                    Recursive = true,
-                    ParentIds = _newlibraryItemIds,
-                    MediaTypes = new[] { "Video" },
-                    IsVirtualItem = false,
-                };
-
-                _itemsInLibraries = LibraryManager.GetItemList(queryList);
-                _numberOfVideoItemsInLibraries = _itemsInLibraries.Length;
-                Log.Info("Total No. of items in Library {0}", _numberOfVideoItemsInLibraries.ToString());
-            }
-            catch (Exception ex)
-            {
-                Log.Error("No Lib Items Found in Library");
-                Log.Error(ex.ToString());
-            }
-        }
-        #endregion
-
-
-        #region 4.8.0.7 Library Code
-        /*private async Task GetItemsInEmbyLibraries()
+        
+        #region 4.7.7.0 Library Code
+        private async Task GetItemIdInEmbyLibraries()
         {
             List<long> convertedIdList = new List<long>();
             try
@@ -348,7 +293,7 @@ namespace Emby.SubKiller.ScheduledTasks
                 Log.Error("No Lib Items Found in Library");
                 Log.Error(ex.ToString());
             }
-        }*/
+        }
         #endregion
 
         private async Task MatchSubtitles(BaseItem item)
@@ -368,7 +313,7 @@ namespace Emby.SubKiller.ScheduledTasks
             Log.Debug("Subtitle Start Index = {0}", subStreamStart.ToString());
             foreach (var subtitle in subStreams)
             {
-                Log.Debug("Subtitle Display Lang = {0}, Embedded Title = {1}, Language = {2}, Index = {3}, is Forced={4}, isTextBased = {5}", subtitle.DisplayLanguage, subtitle.Title, subtitle.Language, subtitle.Index, subtitle.IsForced.ToString(), subtitle.IsTextSubtitleStream.ToString());
+                Log.Debug("Subtitle Display Lang = {0}, Embedded Title = {1}, Language = {2}, Index = {3}, isForced={4}, isTextBased = {5}", subtitle.DisplayLanguage, subtitle.Title, subtitle.Language, subtitle.Index, subtitle.IsForced.ToString(), subtitle.IsTextSubtitleStream.ToString());
             }
 
             string selectedLanguages = config.SelectedLanguages;
@@ -393,20 +338,22 @@ namespace Emby.SubKiller.ScheduledTasks
                         {
                            _subList.Add(new Tuple<string, int>(subtitle.Language, subtitle.Index - subStreamStart));
                         }
-                        if (lang == subtitle.Language && subtitle.IsTextSubtitleStream == true)
+                        if (lang == subtitle.Language && subtitle.IsTextSubtitleStream && !subtitle.IsExternal)
                         {
                             _subTextList.Add(new Tuple<string, string, int, bool>(subtitle.Language, subtitle.Title, subtitle.Index - subStreamStart, subtitle.IsForced));
                         }
-                        if (lang == subtitle.Language && subtitle.IsTextSubtitleStream && subtitle.IsForced)
+                        if (lang == subtitle.Language && subtitle.IsTextSubtitleStream && subtitle.IsForced && !subtitle.IsExternal)
                         {
                             _subForcedTextList.Add(new Tuple<string, string, int, bool>(subtitle.Language, subtitle.Title, subtitle.Index - subStreamStart, subtitle.IsForced));
                         }
+                        
                     }
                 }
             }
 
             if (config.EnableSubTitleExtract && !config.EnableExtractForced)
             {
+                Log.Info("Extracting All Subtitles for {0}", item.Name);
                 foreach (var storedValue in _subTextList)
                 {
                     Log.Debug("Stored Lang:{0} - Stored Title:{1} - Index:{2} - Forced:{3}", storedValue.Item1, storedValue.Item2, storedValue.Item3, storedValue.Item4);
@@ -414,24 +361,30 @@ namespace Emby.SubKiller.ScheduledTasks
 
                 if (_subTextList.Count > 0 && !config.EnableExtractForced)
                 {
-                    await ExtractSubtitles(item);
+                    await ExtractForcedSubtitles(item);
+                    Log.Debug("Completed Extraction for All Subtitles for {0}", item.Name);
                     await RemoveTextSubtitles(item);
+                    Log.Debug("Completed removal of text subtitles for {0}", item.Name);
                 }
                 
             }
 
             if (config.EnableExtractForced)
             {
+                Log.Info("Extracting Only Forced Subtitles for {0}", item.Name);
                 foreach (var storedValue in _subForcedTextList)
                 {
                     Log.Debug("Stored Lang:{0} - Stored Title:{1} - Index:{2} - Forced:{3}", storedValue.Item1, storedValue.Item2, storedValue.Item3, storedValue.Item4);
                     await ExtractForcedSubtitles(item);
+                    Log.Debug("Completed Extraction for forced Subtitles for {0}", item.Name);
                     await RemoveTextSubtitles(item);
+                    Log.Debug("Completed removal of text subtitles for {0}", item.Name);
                 }
             }
 
             foreach (var storedValue in _subList)
             {
+                Log.Info("Processing Graphical based Subtitles for {0}", item.Name);
                 Log.Debug("Stored Lang:{0} - Index:{1}", storedValue.Item1, storedValue.Item2);
             }
             if (_subList.Count > 0)
@@ -445,6 +398,7 @@ namespace Emby.SubKiller.ScheduledTasks
         private async Task ExtractSubtitles(BaseItem item)
         {
             Log.Info("Extracting Subtitles to File");
+            File.SetAttributes(item.Path, FileAttributes.Normal);
             var ffmpegConfiguration = FfmpegManager.FfmpegConfiguration;
             var ffmpegPath = ffmpegConfiguration.EncoderPath;
             
@@ -454,15 +408,19 @@ namespace Emby.SubKiller.ScheduledTasks
                 if (_subTextList != null)
                 {
                     string forced = "";
+                    string sdh = "";
                     var mapCode = "-map 0:s:" + storedValue.Item3 + " ";
                     var lang = storedValue.Item1;
-                    //var title = storedValue.Item2;
+                    var title = storedValue.Item2;
                     bool isForced = storedValue.Item4;
+                    bool isSDH = title.IndexOf("SDH", StringComparison.OrdinalIgnoreCase) >= 0; //ignore case for string.Contains equivalent
+                    string subExt = "." + config.SubtitleType;
 
                     forced = isForced ? ".forced" : "";
+                    sdh = isSDH ? ".sdh" : "";
 
 
-                    string extractPath = Path.Combine(item.ContainingFolderPath, Path.GetFileNameWithoutExtension(item.Path)+forced+"."+lang+".srt");
+                    string extractPath = Path.Combine(item.ContainingFolderPath, Path.GetFileNameWithoutExtension(item.Path) + forced + sdh + "." + lang + subExt);
                     Log.Debug("Extract Subtitle File Path = {0}", extractPath);
                     if (File.Exists(extractPath))
                     {
@@ -486,6 +444,10 @@ namespace Emby.SubKiller.ScheduledTasks
                         proc.StartInfo.CreateNoWindow = true;
                         proc.StartInfo.RedirectStandardOutput = false;
                         proc.StartInfo.RedirectStandardError = false;
+
+                        //Clear LD_LIBRARY_PATH environment variable for Linux
+                        proc.StartInfo.Environment["LD_LIBRARY_PATH"] = null;
+
                         proc.Start();
 
                         //var error = await proc.StandardError.ReadToEndAsync();
@@ -505,6 +467,7 @@ namespace Emby.SubKiller.ScheduledTasks
                         {
                             Log.Warn("Subtitle File FAILED to be created for {0} and exited with Code {1}",
                                 item.Name, exitCode.ToString());
+                            FailedItemList.Add(item.InternalId);
                             //Log.Warn("Process Error - ",error);
                         }
                     }
@@ -520,6 +483,7 @@ namespace Emby.SubKiller.ScheduledTasks
         private async Task ExtractForcedSubtitles(BaseItem item)
         {
             Log.Info("Extracting FORCED Subtitles to File");
+            File.SetAttributes(item.Path, FileAttributes.Normal);
             var ffmpegConfiguration = FfmpegManager.FfmpegConfiguration;
             var ffmpegPath = ffmpegConfiguration.EncoderPath;
 
@@ -533,11 +497,12 @@ namespace Emby.SubKiller.ScheduledTasks
                     var lang = storedValue.Item1;
                     //var title = storedValue.Item2;
                     bool isForced = storedValue.Item4;
+                    string subExt = "." + config.SubtitleType;
 
                     forced = isForced ? ".forced" : "";
 
 
-                    string extractPath = Path.Combine(item.ContainingFolderPath, Path.GetFileNameWithoutExtension(item.Path) + forced + "." + lang + ".srt");
+                    string extractPath = Path.Combine(item.ContainingFolderPath, Path.GetFileNameWithoutExtension(item.Path) + forced + "." + lang + subExt);
                     Log.Debug("Extract Subtitle File Path = {0}", extractPath);
                     if (File.Exists(extractPath))
                     {
@@ -561,6 +526,10 @@ namespace Emby.SubKiller.ScheduledTasks
                         proc.StartInfo.CreateNoWindow = true;
                         proc.StartInfo.RedirectStandardOutput = false;
                         proc.StartInfo.RedirectStandardError = false;
+
+                        //Clear LD_LIBRARY_PATH environment variable for Linux
+                        proc.StartInfo.Environment["LD_LIBRARY_PATH"] = null;
+                        
                         proc.Start();
 
                         //var error = await proc.StandardError.ReadToEndAsync();
@@ -580,6 +549,7 @@ namespace Emby.SubKiller.ScheduledTasks
                         {
                             Log.Warn("Subtitle File FAILED to be created for {0} and exited with Code {1}",
                                 item.Name, exitCode.ToString());
+                            FailedItemList.Add(item.InternalId);
                             //Log.Warn("Process Error - ",error);
                         }
                     }
@@ -595,6 +565,7 @@ namespace Emby.SubKiller.ScheduledTasks
         private async Task RemoveTextSubtitles(BaseItem item)
         {
             Log.Info("Removing Text Subtitles from Video");
+            File.SetAttributes(item.Path, FileAttributes.Normal);
             var ffmpegConfiguration = FfmpegManager.FfmpegConfiguration;
             var ffmpegPath = ffmpegConfiguration.EncoderPath;
             var tempFolder = item.ContainingFolderPath;
@@ -604,20 +575,14 @@ namespace Emby.SubKiller.ScheduledTasks
             var tempVideoPath = Path.Combine(tempFolder, Path.GetFileNameWithoutExtension(item.Path) + ".tmp");
             Log.Debug("Temporary Video File Path = {0}", tempVideoPath);
 
-            foreach (var storedValue in _subTextList)
-            {
-                if (_subTextList != null)
-                {
-                    mapsb.Append("-map -0:s ");
-                }
-            }
+            
             Log.Debug("Remove Subtitle StringBuilder = {0}", mapsb);
 
             if (_subTextList != null)
             {
                 try
                 {
-                    string Args = "-i \"" + item.Path + "\" -map 0:v -map 0:a " + mapsb + " -codec: copy -f matroska \"" + tempVideoPath + "\"";
+                    string Args = "-i \"" + item.Path + "\" -map 0:v -map 0:a -map -0:s -codec: copy -f matroska \"" + tempVideoPath + "\"";
 
                     Log.Debug($"Args={Args}");
 
@@ -630,6 +595,10 @@ namespace Emby.SubKiller.ScheduledTasks
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.RedirectStandardOutput = false;
                     proc.StartInfo.RedirectStandardError = false;
+
+                    //Clear LD_LIBRARY_PATH environment variable for Linux
+                    proc.StartInfo.Environment["LD_LIBRARY_PATH"] = null;
+                    
                     proc.Start();
 
                     proc.WaitForExit();

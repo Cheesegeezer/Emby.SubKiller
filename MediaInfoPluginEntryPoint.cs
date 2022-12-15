@@ -95,7 +95,7 @@ namespace Emby.SubKiller
         
         public void Dispose()
         {
-            Plugin.Instance.UpdateConfiguration(Plugin.Instance.Configuration);
+            //Plugin.Instance.UpdateConfiguration(Plugin.Instance.Configuration);
             TaskManager.TaskCompleted -= TaskManagerOnTaskCompleted;
         }
 

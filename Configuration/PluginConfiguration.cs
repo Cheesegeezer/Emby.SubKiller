@@ -13,6 +13,7 @@ namespace Emby.SubKiller.Configuration
         public bool KeepUndefined { get; set; }
         public string SelectedLanguages { get; set; }
         public bool EnableSubKillerRefresh { get; set; }
+        public string SubtitleType { get; set; }
         public List<string> LibrariesToConvert { get; set; }
 
         //Processed Lists
@@ -29,6 +30,7 @@ namespace Emby.SubKiller.Configuration
             KeepUndefined = false;
             SelectedLanguages = "";
             EnableSubKillerRefresh = false;
+            SubtitleType = "SRT";
             LibrariesToConvert = new List<string>();
             
             //add default values here to use

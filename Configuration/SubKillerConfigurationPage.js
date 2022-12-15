@@ -129,6 +129,9 @@
                 mainTabsManager.setTabs(this, 0, getTabs);
 
                 var config = await ApiClient.getPluginConfiguration(pluginId);
+                var includeLibrary = view.querySelector('.library-list');
+                var librarySelect = view.querySelector('#selectEmbySeries');
+                var addToLibraryListBtn = view.querySelector('#btnAddLibraryList');
                 var selectedSubs = view.querySelectorAll(".chkLanguage");
 
                 ApiClient.getPluginConfiguration(pluginId).then(function(config) {
@@ -139,6 +142,7 @@
                     view.querySelector(".chkEnableExtractForced").checked = config.EnableExtractForced;
                     view.querySelector(".chkEnableSubKillerRefresh").checked = config.EnableSubKillerRefresh;
                     view.querySelector("#txtselectedLangs").textContent = config.SelectedLanguages.replace(/[\[\]']+/g, '') || "";
+                    view.querySelector("#subTypeId").textContent = config.SubtitleType || "";
 
                     if (config.LibrariesToConvert) {
                         reloadList(config.LibrariesToConvert, includeLibrary, view);
@@ -160,9 +164,28 @@
 
                 loading.hide();
 
-                var includeLibrary = view.querySelector('.ignore-list');
-                var librarySelect = view.querySelector('#selectEmbySeries');
-                var addToLibraryListBtn = view.querySelector('#btnAddSeriesToIgnoreList');
+                var selectSubType = view.querySelector("#selectSubType");
+                selectSubType.add(new Option("", "Filler"));
+                selectSubType.add(new Option("SRT", "SRT"));
+                selectSubType.add(new Option("ASS", "ASS"));
+                selectSubType.add(new Option("VTT", "VTT"));
+
+                selectSubType.addEventListener('change', (e) => {
+                    e.preventDefault();
+                    let selectedValue = selectSubType.value;
+                    console.log("Selected Value: ", selectedValue);
+                    view.querySelector("#subTypeId").textContent = selectedValue || "";
+                    
+                    ApiClient.getPluginConfiguration(pluginId).then((config) => {
+                        config.SubtitleType = selectedValue;
+                        ApiClient.updatePluginConfiguration(pluginId, config).then((r) => {
+                            Dashboard.processPluginConfigurationUpdateResult(r);
+                        });
+                    });
+                });
+                
+
+                
 
                 var enableSubKiller = view.querySelector(".chkEnableSubKiller");
                 enableSubKiller.addEventListener('change',
