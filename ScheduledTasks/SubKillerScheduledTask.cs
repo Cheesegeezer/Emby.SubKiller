@@ -24,7 +24,6 @@ namespace Emby.SubKiller.ScheduledTasks
         private ITaskManager TaskManager { get; }
         private ILibraryManager LibraryManager { get; }
         private IFfmpegManager FfmpegManager { get; }
-        private PluginConfiguration config => Plugin.Instance.Configuration;
         private ILogger Log { get; }
         public string Name => "SubKiller - Remove Unwanted Subtitles";
 
@@ -72,6 +71,7 @@ namespace Emby.SubKiller.ScheduledTasks
 
         public async Task Execute(CancellationToken cancellationToken, IProgress<double> progress)
         {
+            PluginConfiguration config = Plugin.Instance.Configuration;
             _totalProgress = 0;
             ExitCode = 0;
             
@@ -95,7 +95,15 @@ namespace Emby.SubKiller.ScheduledTasks
                     if (movItems >= 1)
                     {
                         var processedItems = config.SubKillerProcessedList;
-                        var itemsToProcess = _itemsInLibraries.Where(t => !processedItems.Contains(t.InternalId)).ToList();
+                        List<BaseItem> itemsToProcess;
+                        if (processedItems != null)
+                        {
+                            itemsToProcess = _itemsInLibraries.Where(t => !processedItems.Contains(t.InternalId)).ToList();
+                        }
+                        else
+                        {
+                            itemsToProcess = _itemsInLibraries.ToList();
+                        }
 
                         if (itemsToProcess.Count == 0)
                         {
@@ -236,6 +244,7 @@ namespace Emby.SubKiller.ScheduledTasks
         #region 4.7.7.0 Library Code
         private async Task GetItemIdInEmbyLibraries()
         {
+            PluginConfiguration config = Plugin.Instance.Configuration;
             List<long> convertedIdList = new List<long>();
             try
             {
@@ -298,6 +307,8 @@ namespace Emby.SubKiller.ScheduledTasks
 
         private async Task MatchSubtitles(BaseItem item)
         {
+            PluginConfiguration config = Plugin.Instance.Configuration;
+
             ExitCode = 0;
 
             Video stream = (Video)item;
@@ -361,7 +372,7 @@ namespace Emby.SubKiller.ScheduledTasks
 
                 if (_subTextList.Count > 0 && !config.EnableExtractForced)
                 {
-                    await ExtractForcedSubtitles(item);
+                    await ExtractSubtitles(item);
                     Log.Debug("Completed Extraction for All Subtitles for {0}", item.Name);
                     await RemoveTextSubtitles(item);
                     Log.Debug("Completed removal of text subtitles for {0}", item.Name);
@@ -397,7 +408,9 @@ namespace Emby.SubKiller.ScheduledTasks
 
         private async Task ExtractSubtitles(BaseItem item)
         {
-            Log.Info("Extracting Subtitles to File");
+            PluginConfiguration config = Plugin.Instance.Configuration;
+
+            Log.Info("Extracting Subtitles to Files");
             File.SetAttributes(item.Path, FileAttributes.Normal);
             var ffmpegConfiguration = FfmpegManager.FfmpegConfiguration;
             var ffmpegPath = ffmpegConfiguration.EncoderPath;
@@ -433,7 +446,7 @@ namespace Emby.SubKiller.ScheduledTasks
                         // ffmpeg -i input.ext -map 0:s:2 -c:s copy test2.srt
                         string Args = "-i \"" + item.Path + "\" " + mapCode + "-c:s copy \"" + extractPath + "\"";
 
-                        Log.Debug($"Args={Args}");
+                        //Log.Debug($"Args={Args}");
 
                         Process proc = new Process();
                         proc.StartInfo.FileName = ffmpegPath;
@@ -482,6 +495,8 @@ namespace Emby.SubKiller.ScheduledTasks
 
         private async Task ExtractForcedSubtitles(BaseItem item)
         {
+            PluginConfiguration config = Plugin.Instance.Configuration;
+
             Log.Info("Extracting FORCED Subtitles to File");
             File.SetAttributes(item.Path, FileAttributes.Normal);
             var ffmpegConfiguration = FfmpegManager.FfmpegConfiguration;
@@ -515,7 +530,7 @@ namespace Emby.SubKiller.ScheduledTasks
                         // ffmpeg -i input.ext -map 0:s:2 -c:s copy test2.srt
                         string Args = "-i \"" + item.Path + "\" " + mapCode + "-c:s copy \"" + extractPath + "\"";
 
-                        Log.Debug($"Args={Args}");
+                        //Log.Debug($"Args={Args}");
 
                         Process proc = new Process();
                         proc.StartInfo.FileName = ffmpegPath;
@@ -584,7 +599,7 @@ namespace Emby.SubKiller.ScheduledTasks
                 {
                     string Args = "-i \"" + item.Path + "\" -map 0:v -map 0:a -map -0:s -codec: copy -f matroska \"" + tempVideoPath + "\"";
 
-                    Log.Debug($"Args={Args}");
+                    //Log.Debug($"Args={Args}");
 
                     Process proc = new Process();
                     proc.StartInfo.FileName = ffmpegPath;
@@ -645,7 +660,7 @@ namespace Emby.SubKiller.ScheduledTasks
                 //ffmpeg -i "C:\Transcode\input.mkv" -map 0 -c copy -sn "C:\Transcode\output.mkv"
                 string Args = "-i \"" + item.Path + "\" -map 0 -c copy -sn \"" + tempVideoPath + "\"";
 
-                Log.Debug($"Args={Args}");
+                //Log.Debug($"Args={Args}");
 
                 Process proc = new Process();
                 proc.StartInfo.FileName = ffmpegPath;
@@ -716,7 +731,7 @@ namespace Emby.SubKiller.ScheduledTasks
                 {
                     string Args = "-i \"" + item.Path + "\" -map 0:v -map 0:a " + mapsb + " -codec: copy -f matroska " + metasb + "\""  + tempVideoPath + "\"";
 
-                    Log.Debug($"Args={Args}");
+                    //Log.Debug($"Args={Args}");
 
                     Process proc = new Process();
                     proc.StartInfo.FileName = ffmpegPath;
@@ -797,13 +812,13 @@ namespace Emby.SubKiller.ScheduledTasks
 
         public void Run()
         {
-            throw new NotImplementedException();
+            
         }
         
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

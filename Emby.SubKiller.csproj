@@ -5,8 +5,8 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Company>Cheesey Productions</Company>
     <Version></Version>
-    <AssemblyVersion>1.0.0.7</AssemblyVersion>
-    <FileVersion>1.0.0.7</FileVersion>
+    <AssemblyVersion>1.0.0.8</AssemblyVersion>
+    <FileVersion>1.0.0.8</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
