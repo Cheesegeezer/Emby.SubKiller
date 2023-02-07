@@ -25,15 +25,14 @@ namespace Emby.SubKiller.Configuration
             
             EnableSubKiller = true;
             RunSubKillerOnItemAdded = false;
-            EnableSubTitleExtract = false;
+            EnableSubTitleExtract = true;
             EnableExtractForced = false;
             KeepUndefined = false;
-            SelectedLanguages = "";
+            SelectedLanguages = string.Empty;
             EnableSubKillerRefresh = false;
             SubtitleType = "SRT";
             LibrariesToConvert = new List<string>();
-            
-            //add default values here to use
+            SubKillerProcessedList = new List<long>();
 
         }
 
